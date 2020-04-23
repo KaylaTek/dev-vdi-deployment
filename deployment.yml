@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: dev-vdi-app
+  namespace: dev-vdi
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: dev-vdi-app
+    spec:
+      containers:
+      - name: vdi
+        image: kaylatek/night-vision-project:dev
+        ports:
+        - name: port
+          containerPort: 6080
+#        volumeMounts:
+#          - mountPath: /app
+#            name: dev-vdi-vc
+#      volumes:
+#      - name: dev-vdi-vc
+#        persistentVolumeClaim:
+#            claimName: dev-vdi-vc
+#      nodeSelector:
+#       dstk: "yes"
+      imagePullSecrets:
+      - name: rhsecret

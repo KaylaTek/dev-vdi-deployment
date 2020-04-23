@@ -1,0 +1,35 @@
+# This is an example of setting up a basicauth with traefik to
+# control access to a specific service
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: basicauth
+  namespace: dev-vdi
+
+spec:
+  basicAuth:
+    secret: mysecret
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingressroutebar
+  namespace: dev-vdi
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`dev.apps.kaylatek.com`) && PathPrefix(`/`)
+    kind: Rule
+    services:
+    - name: dev-vdi-service
+      port: 80
+    middlewares:
+    - name: basicauth
+      namespace: dev-vdi
+  tls:
+#    store: 
+#      name: default
+    secretName: dev-vdi-secret

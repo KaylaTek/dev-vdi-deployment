@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dev-vdi-service
+  namespace: dev-vdi
+  labels:
+    app: dev-vdi-app
+spec:
+  selector:
+    app: dev-vdi-app
+  type: NodePort
+  ports:
+  - name: dev-vdi-app
+    protocol: TCP
+    port: 80
+    targetPort: 6080
