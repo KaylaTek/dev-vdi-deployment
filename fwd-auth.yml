@@ -1,0 +1,13 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: vdi-auth
+spec:
+  forwardAuth:
+    address: http://dex.auth.svc.cluster.local:5556/dex
+    trustForwardHeader: true
+    authResponseHeaders:
+      - X-Auth-User
+      - X-Secret
+    tls:
+      insecureSkipVerify: true
